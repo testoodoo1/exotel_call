@@ -5,12 +5,14 @@ if(!$con){
 	die('mysql could not connected: '.mysql_error());
 }
 
+$cpm = 30;
 
 $url = 'http://vcapi.oodoo.co.in/';
 $username = 'oodoo';
 $password = 'fFPh9n9Tqz4ybQtBPwj8wNhZB5sts8YE';
 $method = 'ConnectAudio';
-$from = '9551904996'; //customer phone number
+$from = '8072738664'; //customer phone number
+//$from = '9551904996';
 $to = 'http://oodoo.co.in/Oodoo_IVR.mp3';
 $call_type = 'trans';
 
@@ -20,6 +22,7 @@ $post_data = array(
 	'To' => $to,
 	'CallType' => $call_type
 );
+$start = microtime(true);
 ob_start();
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_VERBOSE, 1);
@@ -43,21 +46,24 @@ $job_id = $decode['JobID'];
 $sql = "INSERT INTO caller_det (phone, audio_url)
 VALUES ('$from', '$to')";
 if($con->query($sql) === true){
-	echo 'Call Details Added';
+	echo 'Call Detail Added :'.$call_id;
 	echo '\n';
 }else{
 	echo 'Mysql Error : '.$con->error;
 	echo '\n';
 }
 
-$sql2 = "INSERT INTO call_info (call_id, job_id)
-VALUES ('$call_id', '$job_id')";
+$sql2 = "INSERT INTO call_info (call_id, job_id, status)
+VALUES ('$call_id', '$job_id','')";
 if($con->query($sql2) === true){
 	echo 'Call Info Added :'.$call_id;
-	echo '\n';
+	echo "\r\n";
 }else{
 	echo 'Mysql Error : '.$con->error;
-	echo '\n';
+	echo "\r\n";
 }
+
+$time_elapsed_secs = microtime(true) - $start;
+var_dump($time_elapsed_secs);
 
 ?>
