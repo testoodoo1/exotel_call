@@ -5,8 +5,6 @@ if(!$con){
 	die('mysql could not connected: '.mysql_error());
 }
 
-$cpm = 30;
-
 $url = 'http://vcapi.oodoo.co.in/';
 $username = 'oodoo';
 $password = 'fFPh9n9Tqz4ybQtBPwj8wNhZB5sts8YE';
